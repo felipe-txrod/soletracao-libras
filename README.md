@@ -15,7 +15,7 @@ O foco é a soletração pelo alfabeto manual (datilologia). As sequências de l
 3. Clique em **Conferir** ou pressione `Enter` para verificar sua tentativa.
 4. Use **Ver dica** para consultar o significado sem revelar a palavra, ou **Mostrar resposta** para exibir a palavra e sua definição.
 
-O catálogo contém **100 palavras e termos**, distribuídos em cinco temas com 20 entradas cada: **Geral, Computação, Saúde, Ciências e Turismo**.
+O catálogo contém **100 palavras, nomes e termos**, distribuídos em cinco temas com 20 entradas cada: **Geral, Nomes, Saúde, Ciências e Turismo**.
 
 O sorteio percorre todas as entradas de um tema antes de iniciar um novo ciclo, sem repetir a última palavra do ciclo anterior imediatamente. Esse controle fica apenas na memória da página e é reiniciado ao recarregá-la.
 

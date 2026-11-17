@@ -55,7 +55,8 @@
 
   function atualizarContador() {
     const restante = estado.sacos[estado.tema]?.length ?? CATEGORIAS[estado.tema].length;
-    $("contador").textContent = `${restante} ${restante === 1 ? "palavra restante" : "palavras restantes"} neste tema`;
+    const itemType = estado.tema === "Nomes" ? "nome" : "palavra";
+    $("contador").textContent = `${restante} ${itemType}${restante === 1 ? " restante" : "s restantes"} neste tema`;
   }
 
   function atualizarProgresso() {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f8f2">
+  <meta name="theme-color" content="#f6f7f5">
   <meta name="description" content="Pratique o alfabeto manual de Libras com desafios de soletração por temas.">
   <title>Desafio de soletração em Libras</title>
   <link rel="stylesheet" href="estilo.css">
@@ -15,8 +15,7 @@
   <div class="page-shell">
     <header class="site-header">
       <a class="brand" href="./" aria-label="Soletração em Libras — início">
-        <span class="brand-mark" aria-hidden="true">A<span>z</span></span>
-        <h1 class="brand-name" id="page-title">Soletração<span>em Libras</span></h1>
+        <h1 class="brand-name" id="page-title">Soletração em Libras</h1>
       </a>
       <nav class="header-nav" aria-label="Navegação principal">
         <a class="nav-practice" href="#praticar">Praticar</a>
@@ -27,15 +26,10 @@
         <span>Ver no GitHub</span>
       </a>
     </header>
-    <div class="practice-intro">
-      <p>Pratique a leitura de palavras soletradas com o alfabeto manual de Libras.</p>
-      <p class="catalog-summary">5 temas, com 100 palavras e termos.</p>
-    </div>
     <main class="practice-layout" id="praticar" tabindex="-1">
       <aside class="panel settings-panel" aria-label="Configurações do exercício">
         <div class="panel-heading">
-          <span class="step-number" aria-hidden="true">01</span>
-          <div><p class="eyebrow">PREPARE SEU EXERCÍCIO</p><h2>Como vamos praticar?</h2></div>
+          <h2>Configurações</h2>
         </div>
         <div class="mode-tabs" role="tablist" aria-label="Modo de exercício">
           <button type="button" role="tab" id="tab-desafio" class="mode-tab is-active" aria-selected="true" aria-controls="opcoes-desafio">
@@ -47,7 +41,7 @@
         </div>
         <section id="opcoes-desafio" role="tabpanel" aria-labelledby="tab-desafio" tabindex="0">
           <h3 class="section-title">Escolha um tema</h3>
-          <p class="helper-text">Um assunto, novas palavras para descobrir.</p>
+          <p class="helper-text">Cada tema contém 20 itens para sorteio.</p>
           <div id="categorias" class="topic-list" aria-label="Temas disponíveis"></div>
           <div class="draw-area">
             <button type="button" class="button button-primary button-full" id="sortear">
@@ -57,15 +51,15 @@
           </div>
         </section>
         <section id="opcoes-livre" role="tabpanel" aria-labelledby="tab-livre" tabindex="0" hidden>
-          <h3 class="section-title">Uma palavra, muitas possibilidades</h3>
-          <p class="helper-text">Experimente seu nome ou uma palavra que queira praticar.</p>
+          <h3 class="section-title">Digite uma palavra</h3>
+          <p class="helper-text">Digite um nome ou termo para visualizar a soletração.</p>
           <label for="texto-livre" class="field-label">Palavra ou nome</label>
-          <input id="texto-livre" class="field" type="text" maxlength="45" placeholder="Ex.: Mariana, computação" autocomplete="off" spellcheck="false" aria-describedby="free-word-help">
+          <input id="texto-livre" class="field" type="text" maxlength="45" placeholder="Ex.: Mariana, amizade" autocomplete="off" spellcheck="false" aria-describedby="free-word-help">
           <button type="button" class="button button-primary button-full free-submit" id="mostrar">Mostrar soletração</button>
           <p class="small-text" id="free-word-help">Acentos e hífens não mudam as letras mostradas.</p>
         </section>
         <div class="speed-settings">
-          <label for="velocidade" class="field-label">No seu ritmo</label>
+          <label for="velocidade" class="field-label">Velocidade</label>
           <select id="velocidade" class="field">
             <option value="0.5">0,5x — devagar</option>
             <option value="1" selected>1x — normal</option>
@@ -77,18 +71,13 @@
       <section class="panel exercise-panel" id="practice-player" aria-label="Exercício de soletração">
         <div class="exercise-heading">
           <div class="exercise-title-group">
-            <span class="step-number" aria-hidden="true">02</span>
             <div><p class="eyebrow" id="tipo-exercicio">DESAFIO</p><h2 id="titulo-exercicio">Sorteie uma palavra para começar</h2></div>
           </div>
           <span class="topic-tag" id="tag-tema">Geral</span>
         </div>
         <div class="letter-stage">
-          <div class="stage-caption"><span><span class="status-dot" aria-hidden="true"></span> Alfabeto manual de Libras</span><span aria-hidden="true">A — Z</span></div>
           <div id="moldura" class="letter-frame">
-            <div id="letras-placeholder" class="empty-state" aria-hidden="true">
-              <div class="alphabet-cards"><span class="alphabet-card card-back">B</span><span class="alphabet-card card-front">A<span>uma letra por vez</span></span><span class="alphabet-card card-side">C</span></div>
-              <span class="empty-caption">Tudo começa com uma letra.</span>
-            </div>
+            <div id="letras-placeholder" class="empty-state" aria-hidden="true">A–Z</div>
             <img id="imagem-letra" alt="Imagem de uma letra do alfabeto manual" hidden>
             <span id="rotulo-letra" class="letter-label" hidden></span>
           </div>
@@ -101,10 +90,10 @@
           <button type="button" id="proxima" class="button button-secondary" disabled>Próxima letra</button>
         </div>
         <section id="area-resposta" class="answer-area" aria-labelledby="titulo-resposta">
-          <div class="answer-heading"><h3 id="titulo-resposta">Já sabe qual é a palavra?</h3><span>Vale tentar de novo.</span></div>
+          <div class="answer-heading"><h3 id="titulo-resposta">Qual palavra foi soletrada?</h3></div>
           <label for="palpite" class="visually-hidden">Sua resposta</label>
           <div class="answer-row">
-            <input id="palpite" class="field" type="text" maxlength="45" placeholder="Digite aqui sua resposta…" autocomplete="off" spellcheck="false" disabled>
+            <input id="palpite" class="field" type="text" maxlength="45" placeholder="Digite sua resposta" autocomplete="off" spellcheck="false" disabled>
             <button type="button" id="conferir" class="button button-primary" disabled>Conferir</button>
           </div>
           <p id="retorno" class="feedback" aria-live="polite"></p>
@@ -122,8 +111,7 @@
     </main>
     <details class="alphabet-panel" id="alfabeto">
       <summary>
-        <span class="alphabet-heading"><span class="alphabet-mark" aria-hidden="true">Aa</span><span>Uma ajudinha de A a Z<small>Consulte o alfabeto manual sempre que precisar.</small></span></span>
-        <span class="alphabet-toggle"><span>Explorar alfabeto</span></span>
+        <span class="alphabet-heading">Consultar o alfabeto manual</span>
       </summary>
       <p>Selecione uma letra para vê-la no modo de soletração livre.</p>
       <div class="alphabet-grid" id="grade-alfabeto"></div>
