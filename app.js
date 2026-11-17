@@ -49,6 +49,7 @@
   }
 
   function atualizarBotaoReproducao() {
+    $("reproduzir").setAttribute("aria-pressed", String(estado.tocando));
     $("reproduzir").textContent = estado.tocando ? "Pausar" : (estado.pausado ? "Continuar" : "Reproduzir");
   }
 
@@ -62,8 +63,8 @@
     destino.replaceChildren();
     estado.quadros.forEach((_, indice) => {
       const trecho = document.createElement("span");
-      if (estado.concluido || indice < estado.posicao) trecho.className = "feito";
-      else if (estado.visivel && indice === estado.posicao) trecho.className = "atual";
+      if (estado.concluido || indice < estado.posicao) trecho.className = "is-complete";
+      else if (estado.visivel && indice === estado.posicao) trecho.className = "is-current";
       destino.appendChild(trecho);
     });
   }
@@ -175,7 +176,7 @@
   function encerrarResposta(correta) {
     if (!estado.atual) return;
     estado.respostaMostrada = true;
-    $("retorno").className = correta ? "retorno correto" : "retorno";
+    $("retorno").className = correta ? "feedback is-correct" : "feedback";
     $("retorno").textContent = correta ? "Acertou!" : "Esta era a resposta:";
     exibirDefinicao();
     $("dica").disabled = true;
@@ -192,7 +193,7 @@
       encerrarResposta(true);
       return;
     }
-    $("retorno").className = "retorno incorreto";
+    $("retorno").className = "feedback is-incorrect";
     $("retorno").textContent = "Ainda não. Tente outra vez ou repita a sequência.";
   }
 
@@ -208,7 +209,7 @@
     $("area-definicao").hidden = true;
     $("palpite").value = "";
     $("retorno").textContent = "";
-    $("retorno").className = "retorno";
+    $("retorno").className = "feedback";
     $("status-reproducao").textContent = `${estado.quadros.length} letras · pronto para reproduzir`;
     $("titulo-exercicio").textContent = estado.modo === "desafio" ? "Descubra a palavra" : item.palavra;
     $("tipo-exercicio").textContent = estado.modo === "desafio" ? "DESAFIO" : "SOLETRAÇÃO LIVRE";
@@ -233,6 +234,7 @@
     estado.ultimo[tema] = proxima.palavra;
     prepararPalavra(proxima);
     atualizarContador();
+    scrollToExercise();
     reproduzir();
   }
 
@@ -250,7 +252,7 @@
     $("status-reproducao").textContent = estado.modo === "desafio" ? "Sorteie uma palavra e acompanhe as imagens." : "Digite uma palavra para ver as letras.";
     $("palpite").value = "";
     $("retorno").textContent = "";
-    $("retorno").className = "retorno";
+    $("retorno").className = "feedback";
     $("area-definicao").hidden = true;
     for (const id of ["reproduzir", "repetir", "proxima", "palpite", "conferir", "dica", "revelar"]) $(id).disabled = true;
     atualizarBotaoReproducao();
@@ -271,8 +273,9 @@
     estado.modo = modo;
     for (const nome of ["desafio", "livre"]) {
       const selecionado = nome === modo;
-      $("tab-" + nome).classList.toggle("ativa", selecionado);
+      $("tab-" + nome).classList.toggle("is-active", selecionado);
       $("tab-" + nome).setAttribute("aria-selected", String(selecionado));
+      $("tab-" + nome).tabIndex = selecionado ? 0 : -1;
       $("opcoes-" + nome).hidden = !selecionado;
     }
     $("area-resposta").hidden = modo !== "desafio";
@@ -290,6 +293,7 @@
     }
     const encontrado = Object.values(CATEGORIAS).flat().find(item => comparavel(item.palavra) === comparavel(valor));
     prepararPalavra({ palavra: valor, definicao: encontrado?.definicao ?? "" });
+    scrollToExercise();
     reproduzir();
   }
 
@@ -298,7 +302,7 @@
     TEMAS.forEach(tema => {
       const botao = document.createElement("button");
       botao.type = "button";
-      botao.className = "categoria";
+      botao.className = "topic-button";
       botao.dataset.tema = tema;
       botao.setAttribute("aria-pressed", String(tema === estado.tema));
       const nome = document.createElement("span");
@@ -316,7 +320,7 @@
     for (const letra of letras) {
       const botao = document.createElement("button");
       botao.type = "button";
-      botao.className = "letra-tile";
+      botao.className = "letter-tile";
       botao.title = "Mostrar letra " + letra;
       const img = document.createElement("img");
       img.src = `imagens/${letra}.jpg`;
@@ -329,7 +333,7 @@
         escolherModo("livre");
         $("texto-livre").value = letra;
         mostrarLivre();
-        $("titulo-exercicio").scrollIntoView({ behavior: "smooth", block: "center" });
+        scrollToExercise(true);
       });
       caixa.appendChild(botao);
     }
@@ -351,6 +355,35 @@
   });
   $("revelar").addEventListener("click", () => encerrarResposta(false));
 
+  function scrollToExercise(force = false) {
+    if (typeof window.matchMedia !== "function") return;
+    if (!force && !window.matchMedia("(max-width: 800px)").matches) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    $("practice-player").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  }
+
+  function initializeTabNavigation() {
+    const tabs = [$("tab-desafio"), $("tab-livre")];
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("keydown", event => {
+        let nextIndex;
+        if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+        else if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+        else if (event.key === "Home") nextIndex = 0;
+        else if (event.key === "End") nextIndex = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        tabs[nextIndex].click();
+        tabs[nextIndex].focus();
+      });
+    });
+  }
+
+  document.querySelectorAll('a[href="#alfabeto"]').forEach(link => {
+    link.addEventListener("click", () => { $("alfabeto").open = true; });
+  });
+
+  initializeTabNavigation();
   montarCategorias();
   montarAlfabeto();
   escolherModo("desafio");
