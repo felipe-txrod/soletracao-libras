@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f5">
+  <meta name="description" content="Pratique o alfabeto manual de Libras com desafios de soletração por temas.">
+  <title>Desafio de soletração em Libras</title>
+  <link rel="stylesheet" href="estilo.css">
+  <script src="dados.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="pagina">
+    <header class="cabecalho">
+      <div class="marca"><span class="marca-simbolo" aria-hidden="true">A–Z</span><span>Desafio de soletração <small>em Libras</small></span></div>
+      <span class="selo">Alfabeto manual</span>
+    </header>
+
+    <div class="introducao">
+      <h1>Que palavra é essa?</h1>
+      <p>Veja as letras em Libras, uma de cada vez, e tente descobrir a palavra. Aqui o treino é de <strong>soletração</strong>, não de sinais para palavras completas.</p>
+    </div>
+
+    <div class="layout">
+      <aside class="painel configuracoes" aria-label="Configurações do exercício">
+        <div class="abas" role="tablist" aria-label="Modo de exercício">
+          <button type="button" role="tab" id="tab-desafio" class="aba ativa" aria-selected="true" aria-controls="opcoes-desafio">Desafio</button>
+          <button type="button" role="tab" id="tab-livre" class="aba" aria-selected="false" aria-controls="opcoes-livre">Soletração livre</button>
+        </div>
+
+        <section id="opcoes-desafio" role="tabpanel" aria-labelledby="tab-desafio">
+          <h2>Escolha um tema</h2>
+          <p class="texto-auxiliar">Cada tema tem 20 palavras ou termos para praticar.</p>
+          <div id="categorias" class="categorias" aria-label="Temas disponíveis"></div>
+          <div class="sorteio">
+            <button type="button" class="botao botao-destaque botao-largura" id="sortear">Sortear palavra</button>
+            <p id="contador" class="pequeno" aria-live="polite">20 palavras disponíveis</p>
+          </div>
+        </section>
+
+        <section id="opcoes-livre" role="tabpanel" aria-labelledby="tab-livre" hidden>
+          <h2>Escreva uma palavra</h2>
+          <p class="texto-auxiliar">Digite um nome ou termo para ver como ele fica no alfabeto manual.</p>
+          <label for="texto-livre" class="rotulo">Palavra ou nome</label>
+          <input id="texto-livre" class="campo" type="text" maxlength="45" placeholder="Ex.: Mariana, computação" autocomplete="off" spellcheck="false">
+          <button type="button" class="botao botao-destaque botao-largura margem-topo" id="mostrar">Mostrar soletração</button>
+          <p class="pequeno">Acentos e hífens não mudam as letras mostradas.</p>
+        </section>
+
+        <div class="config-velocidade">
+          <label for="velocidade" class="rotulo">Velocidade</label>
+          <div class="seletor-velocidade">
+            <select id="velocidade" class="campo">
+              <option value="0.5">0,5x — devagar</option>
+              <option value="1" selected>1x — normal</option>
+              <option value="2">2x — rápido</option>
+            </select>
+          </div>
+          <p class="pequeno">Pode pausar, repetir ou avançar uma letra por vez.</p>
+        </div>
+      </aside>
+
+      <main class="painel exercicio" aria-label="Exercício de soletração">
+        <div class="topo-exercicio">
+          <div>
+            <p class="sobretitulo" id="tipo-exercicio">DESAFIO</p>
+            <h2 id="titulo-exercicio">Sorteie uma palavra para começar</h2>
+          </div>
+          <span class="tag" id="tag-tema">Geral</span>
+        </div>
+
+        <div class="palco">
+          <div id="moldura" class="moldura">
+            <div id="letras-placeholder" class="letras-placeholder" aria-hidden="true">A–Z</div>
+            <img id="imagem-letra" alt="Imagem de uma letra do alfabeto manual" hidden>
+            <span id="rotulo-letra" class="rotulo-letra" hidden></span>
+          </div>
+          <p id="status-reproducao" class="status-reproducao" aria-live="polite">Sorteie uma palavra e acompanhe as imagens.</p>
+          <div id="progresso" class="progresso" aria-label="Progresso da soletração"></div>
+        </div>
+
+        <div class="controles">
+          <button type="button" id="repetir" class="botao botao-secundario" disabled>Repetir</button>
+          <button type="button" id="reproduzir" class="botao botao-destaque" disabled>Reproduzir</button>
+          <button type="button" id="proxima" class="botao botao-secundario" disabled>Próxima letra</button>
+        </div>
+
+        <section id="area-resposta" class="area-resposta" aria-labelledby="titulo-resposta">
+          <h3 id="titulo-resposta">Qual palavra foi soletrada?</h3>
+          <div class="linha-resposta">
+            <input id="palpite" class="campo" type="text" maxlength="45" placeholder="Digite sua resposta" autocomplete="off" spellcheck="false" disabled>
+            <button type="button" id="conferir" class="botao botao-destaque" disabled>Conferir</button>
+          </div>
+          <p id="retorno" class="retorno" aria-live="polite"></p>
+          <div class="linha-ajuda">
+            <button type="button" class="link-botao" id="dica" disabled>Ver dica</button>
+            <button type="button" class="link-botao" id="revelar" disabled>Mostrar resposta</button>
+          </div>
+        </section>
+
+        <section id="area-definicao" class="area-definicao" aria-live="polite" hidden>
+          <p id="titulo-definicao" class="sobretitulo">SIGNIFICADO</p>
+          <h3 id="palavra-definicao"></h3>
+          <p id="texto-definicao"></p>
+        </section>
+      </main>
+    </div>
+
+    <details class="alfabeto" id="alfabeto">
+      <summary>Consultar o alfabeto manual <span>A–Z</span></summary>
+      <p>Toque em uma letra para vê-la no modo de soletração livre.</p>
+      <div class="grade-alfabeto" id="grade-alfabeto"></div>
+    </details>
+
+    <footer class="rodape">
+      <p>Este site mostra fotos de letras do alfabeto manual. Alguns movimentos não aparecem em uma imagem parada, por isso as fotos não substituem uma demonstração em vídeo.</p>
+      <p>Imagens: <a href="https://github.com/ianderichalski/robo-libras/tree/main/docs/alphabet" target="_blank" rel="noopener noreferrer">RoboLibras</a> (GPL-3.0). Créditos e informações sobre a licença no arquivo README.</p>
+    </footer>
+  </div>
+</body>
+</html>
