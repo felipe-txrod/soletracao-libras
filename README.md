@@ -26,10 +26,10 @@ Visit <http://127.0.0.1:8000>. Stop the server with `Ctrl+C`. All application as
 The workflow in `.github/workflows/pages.yml` publishes the static site after a push to `main` and can also be run manually. It stages only the application files, images, README, and license in the deployment artifact.
 
 1. Create an empty GitHub repository without adding a README, license, or `.gitignore`.
-2. Connect the local repository, replacing `OWNER` with your GitHub account or organization:
+2. Connect the local repository if `origin` has not been configured yet:
 
    ```bash
-   git remote add origin https://github.com/OWNER/soletracao-libras.git
+   git remote add origin https://github.com/felipe-txrod/soletracao-libras.git
    ```
 
 3. Before pushing, open the GitHub repository's **Settings → Pages** and select **GitHub Actions** as the source under **Build and deployment**.
@@ -39,7 +39,7 @@ The workflow in `.github/workflows/pages.yml` publishes the static site after a 
    git push -u origin main
    ```
 
-5. Follow the **Deploy to GitHub Pages** workflow in the **Actions** tab. Its deployment links to the published site, typically `https://OWNER.github.io/soletracao-libras/`.
+5. Follow the **Deploy to GitHub Pages** workflow in the **Actions** tab. The published site is available at <https://felipe-txrod.github.io/soletracao-libras/> after a successful deployment.
 
 The workflow follows the [GitHub Pages custom workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages). Asset paths are relative, supporting deployment under the repository's URL prefix.
 
